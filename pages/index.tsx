@@ -41,15 +41,18 @@ export default function Home() {
   };
 
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 min-h-screen flex flex-col">
       <Head>
         <title>Art Gallery Explorer</title>
         <meta name="description" content="Explore artworks from the Rijksmuseum" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="py-8">
-        <h1 className="text-4xl font-bold mb-8 text-center">Art Gallery Explorer</h1>
+      <header className="py-6">
+        <h1 className="text-4xl font-bold text-left">Art Gallery Explorer</h1>
+      </header>
+
+      <main className="flex-grow flex items-center justify-center">
         {loading && <p className="text-center">Loading artworks...</p>}
         {error && <p className="text-center text-red-500">{error}</p>}
         {!loading && !error && (
@@ -58,13 +61,14 @@ export default function Home() {
             onImageClick={handleArtworkClick}
           />
         )}
-        {artworkDetails && (
-          <ArtworkModal
-            artwork={artworkDetails}
-            onClose={() => setSelectedArtwork(null)}
-          />
-        )}
       </main>
+
+      {artworkDetails && (
+        <ArtworkModal 
+          artwork={artworkDetails}
+          onClose={() => setSelectedArtwork(null)}
+        />
+      )}
     </div>
   );
 }
