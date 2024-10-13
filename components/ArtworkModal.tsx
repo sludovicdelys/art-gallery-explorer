@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import { ArtworkDetails } from '../utils/api';
 
-interface ArtworkModalProps {
-  artwork: ArtworkDetails | null;
+interface ArtworkProps {
+  artwork: ArtworkDetails;
   onClose: () => void;
 }
 
-export default function ArtworkModal({ artwork, onClose }: ArtworkModalProps) {
+export default function ArtworkModal({ artwork, onClose }: ArtworkProps) {
   if (!artwork) return null;
 
   return (

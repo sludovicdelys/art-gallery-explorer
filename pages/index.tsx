@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { fetchArtworks, fetchArtworkDetails, Artwork as ArtworkType, ArtworkDetails } from '../utils/api';
-import Artwork from '../components/Artwork';
 import ArtworkModal from '../components/ArtworkModal';
+import Carousel from '../components/Carousel';
 
 export default function Home() {
   const [artworks, setArtworks] = useState<ArtworkType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedArtwork, setSelectedArtwork] = useState<ArtworkDetails | null>(null);
+  const [artworkDetails, setSelectedArtwork] = useState<ArtworkDetails | null>(null);
 
   useEffect(() => {
     loadArtworks();
@@ -17,19 +17,23 @@ export default function Home() {
   const loadArtworks = async () => {
     try {
       setLoading(true);
-      const data = await fetchArtworks();
+      const data = await fetchArtworks(1, 20); 
       setArtworks(data.artObjects);
     } catch (err) {
-      setError('Failed to load artworks. Please try again later.');
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('An unknown error occurred');
+      }
       console.error('Error loading artworks:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const handleArtworkClick = async (objectNumber: string) => {
+  const handleArtworkClick = async (index: number) => {
     try {
-      const data = await fetchArtworkDetails(objectNumber);
+      const data = await fetchArtworkDetails(artworks[index].objectNumber);
       setSelectedArtwork(data.artObject);
     } catch (err) {
       console.error('Failed to fetch artwork details:', err);
@@ -49,19 +53,14 @@ export default function Home() {
         {loading && <p className="text-center">Loading artworks...</p>}
         {error && <p className="text-center text-red-500">{error}</p>}
         {!loading && !error && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {artworks.map((artwork) => (
-              <Artwork 
-                key={artwork.id} 
-                artwork={artwork} 
-                onArtworkClick={handleArtworkClick}
-              />
-            ))}
-          </div>
+          <Carousel 
+            artworks={artworks}
+            onImageClick={handleArtworkClick}
+          />
         )}
-        {selectedArtwork && (
-          <ArtworkModal 
-            artwork={selectedArtwork} 
+        {artworkDetails && (
+          <ArtworkModal
+            artwork={artworkDetails}
             onClose={() => setSelectedArtwork(null)}
           />
         )}

@@ -39,5 +39,10 @@ export async function fetchArtworkDetails(objectNumber: string): Promise<{ artOb
 }
 
 export function getOptimizedImageUrl(url: string, width: number): string {
-    return `${url.split('=')[0]}=w${width}`;
+    const baseUrl = url.split('=')[0];
+    if (url.includes('=s')) {
+        return url.replace(/=s\d+/, `=s${width}`);
+    } else {
+        return `${baseUrl}=s${width}`;
+    }
 }
