@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { Artwork as ArtworkType } from '../utils/api';
+import { getOptimizedImageUrl } from '../utils/api';
 
 interface ArtworkProps {
   artwork: ArtworkType;
@@ -9,6 +10,7 @@ interface ArtworkProps {
 
 export default function Artwork({ artwork, onArtworkClick }: ArtworkProps) {
   const [isLoading, setIsLoading] = useState(true);
+  const thumbnailUrl = getOptimizedImageUrl(artwork.webImage.url, 300);
 
   return (
     <div 
@@ -17,7 +19,7 @@ export default function Artwork({ artwork, onArtworkClick }: ArtworkProps) {
     >
       <div className="aspect-w-1 aspect-h-1 w-full">
         <Image
-          src={artwork.webImage.url}
+          src={thumbnailUrl}
           alt={artwork.title}
           layout="fill"
           objectFit="cover"

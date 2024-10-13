@@ -7,7 +7,9 @@ export interface Artwork {
     title: string;
     principalOrFirstMaker: string;
     webImage: {
-      url: string;
+        url: string;
+        width: number;
+        height: number;
     };
 }
   
@@ -34,4 +36,8 @@ export async function fetchArtworkDetails(objectNumber: string): Promise<{ artOb
         throw new Error('Failed to fetch artwork details');
     }
     return response.json();
+}
+
+export function getOptimizedImageUrl(url: string, width: number): string {
+    return `${url.split('=')[0]}=w${width}`;
 }
