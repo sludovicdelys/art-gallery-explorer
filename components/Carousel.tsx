@@ -36,7 +36,6 @@ export default function Carousel({ artworks, onImageClick, onPreviousCollection,
   
     return (
       <div className="w-full max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-center mb-8">Rijksmuseum Gallery Explorer</h1>
         <div className="relative bg-gray-100 rounded-lg overflow-hidden mb-4">
           <Image
             src={getOptimizedImageUrl(artworks[currentIndex].webImage.url, 800)}

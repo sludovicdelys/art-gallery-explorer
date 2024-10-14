@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { fetchArtworks, fetchArtworkDetails, Artwork as ArtworkType, ArtworkDetails } from '../utils/api';
 import ArtworkModal from '../components/ArtworkModal';
 import Carousel from '../components/Carousel';
+import ArtLoader from '../components/ArtLoader';
 
 export default function Home() {
   const [artworks, setArtworks] = useState<ArtworkType[]>([]);
@@ -61,9 +62,15 @@ export default function Home() {
       </Head>
 
       <main className="container mx-auto px-4">
-        {loading && <p className="text-center">Loading artworks...</p>}
-        {error && <p className="text-center text-red-500">{error}</p>}
-        {!loading && !error && (
+        <h1 className="text-4xl font-bold text-center mb-8">Rijksmuseum Gallery Explorer</h1>
+        
+        {loading ? (
+          <div className="mt-8">
+            <ArtLoader />
+          </div>
+        ) : error ? (
+          <p className="text-center text-red-500 mt-8">{error}</p>
+        ) : (
           <Carousel 
             artworks={artworks}
             onImageClick={handleArtworkClick}
