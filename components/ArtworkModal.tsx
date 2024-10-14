@@ -15,11 +15,11 @@ export default function ArtworkModal({ artwork, onClose }: ArtworkProps) {
         <div className="p-4">
           <button 
             onClick={onClose}
-            className="float-right text-2xl"
+            className="float-right text-2xl text-gray-800"
           >
             &times;
           </button>
-          <h2 className="text-2xl font-bold mb-4">{artwork.title}</h2>
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">{artwork.title}</h2>
           <div className="aspect-w-16 aspect-h-9 mb-4">
             <Image
               src={artwork.webImage.url}
