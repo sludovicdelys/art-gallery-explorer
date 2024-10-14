@@ -36,8 +36,24 @@ export default function Carousel({ artworks, onImageClick, onPreviousCollection,
   
     return (
       <div className="w-full max-w-4xl mx-auto">
+      <div className="flex justify-between items-center mb-4">
+        <button
+          onClick={onPreviousCollection}
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full flex items-center transition-colors"
+        >
+          <ArrowLeft size={20} className="mr-2" />
+          Previous collection
+        </button>
+        <button
+          onClick={onNextCollection}
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full flex items-center transition-colors"
+        >
+          Next collection
+          <ArrowRight size={20} className="ml-2" />
+        </button>
+      </div>
+
       <div className="relative bg-gray-100 rounded-lg overflow-hidden mb-4">
-        {/* Fixed aspect ratio container */}
         <div className="aspect-w-16 aspect-h-9 w-full">
           <div className="w-full h-full flex items-center justify-center">
             <Image
@@ -69,22 +85,7 @@ export default function Carousel({ artworks, onImageClick, onPreviousCollection,
           <ChevronRight size={24} />
         </button>
       </div>
-      <div className="flex justify-between items-center mb-4">
-        <button
-          onClick={onPreviousCollection}
-          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full flex items-center transition-colors"
-        >
-          <ArrowLeft size={20} className="mr-2" />
-          Previous collection
-        </button>
-        <button
-          onClick={onNextCollection}
-          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full flex items-center transition-colors"
-        >
-          Next collection
-          <ArrowRight size={20} className="ml-2" />
-        </button>
-      </div>
+      
       <div className="grid grid-cols-5 sm:grid-cols-10 gap-2">
         {artworks.map((artwork, index) => (
           <div

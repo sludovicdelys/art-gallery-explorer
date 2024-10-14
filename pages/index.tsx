@@ -14,7 +14,6 @@ export default function Home() {
   const [page, setPage] = useState(1);
   const { getCachedArtworks, setCachedArtworks } = useCachedArtworks();
 
-
   const loadArtworks = useCallback(async (pageNumber: number) => {
     const cachedArtworks = getCachedArtworks(pageNumber);
     if (cachedArtworks) {
@@ -44,6 +43,7 @@ export default function Home() {
     loadArtworks(page);
   }, [page, loadArtworks]);
 
+
   const handleArtworkClick = async (index: number) => {
     try {
       const data = await fetchArtworkDetails(artworks[index].objectNumber);
@@ -62,7 +62,6 @@ export default function Home() {
   const handleNextCollection = useCallback(() => {
     setPage(prevPage => prevPage + 1);
   }, []);
-
 
   return (
     <div className="min-h-screen bg-gray-100 py-8">
