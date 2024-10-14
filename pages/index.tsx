@@ -9,15 +9,16 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [artworkDetails, setSelectedArtwork] = useState<ArtworkDetails | null>(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    loadArtworks();
-  }, []);
+    loadArtworks(page);
+  }, [page]);
 
-  const loadArtworks = async () => {
+  const loadArtworks = async (pageNumber: number) => {
     try {
       setLoading(true);
-      const data = await fetchArtworks(1, 20); 
+      const data = await fetchArtworks(pageNumber, 10); 
       setArtworks(data.artObjects);
     } catch (err) {
       if (err instanceof Error) {
@@ -40,25 +41,34 @@ export default function Home() {
     }
   };
 
+  const handlePreviousCollection = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  const handleNextCollection = () => {
+    setPage(page + 1);
+  };
+
+
   return (
-    <div className="container mx-auto px-4 min-h-screen flex flex-col">
+    <div className="min-h-screen bg-gray-100 py-8">
       <Head>
-        <title>Art Gallery Explorer</title>
+        <title>Rijksmuseum Gallery Explorer</title>
         <meta name="description" content="Explore artworks from the Rijksmuseum" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="py-6">
-        <h1 className="text-4xl font-bold text-left">Art Gallery Explorer</h1>
-      </header>
-
-      <main className="flex-grow flex items-center justify-center">
+      <main className="container mx-auto px-4">
         {loading && <p className="text-center">Loading artworks...</p>}
         {error && <p className="text-center text-red-500">{error}</p>}
         {!loading && !error && (
           <Carousel 
             artworks={artworks}
             onImageClick={handleArtworkClick}
+            onPreviousCollection={handlePreviousCollection}
+            onNextCollection={handleNextCollection}
           />
         )}
       </main>

@@ -21,7 +21,7 @@ export interface ArtworkDetails extends Artwork {
 }
   
 export async function fetchArtworks(page: number = 1, pageSize: number = 10): Promise<{ artObjects: Artwork[] }> {
-    const url = `${BASE_URL}/collection?key=${API_KEY}&imgonly=true&p=${page}&ps=${pageSize}`;
+    const url = `${BASE_URL}/collection?key=${API_KEY}&imgonly=true&p=${page}&ps=${pageSize}&s=artist`;
     const response = await fetch(url);
     if (!response.ok) {
         throw new Error('Failed to fetch artworks');
