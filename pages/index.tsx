@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Head from 'next/head';
 import { fetchArtworks, fetchArtworkDetails, Artwork as ArtworkType, ArtworkDetails } from '../utils/api';
 import ArtworkModal from '../components/ArtworkModal';
 import Carousel from '../components/Carousel';
 import ArtLoader from '../components/ArtLoader';
+import useCachedArtworks from '../hooks/useCachedArtworks';
 
 export default function Home() {
   const [artworks, setArtworks] = useState<ArtworkType[]>([]);
@@ -11,16 +12,22 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [artworkDetails, setSelectedArtwork] = useState<ArtworkDetails | null>(null);
   const [page, setPage] = useState(1);
+  const { getCachedArtworks, setCachedArtworks } = useCachedArtworks();
 
-  useEffect(() => {
-    loadArtworks(page);
-  }, [page]);
 
-  const loadArtworks = async (pageNumber: number) => {
+  const loadArtworks = useCallback(async (pageNumber: number) => {
+    const cachedArtworks = getCachedArtworks(pageNumber);
+    if (cachedArtworks) {
+      setArtworks(cachedArtworks);
+      setLoading(false);
+      return;
+    }
+
     try {
       setLoading(true);
-      const data = await fetchArtworks(pageNumber, 10); 
+      const data = await fetchArtworks(pageNumber, 10);
       setArtworks(data.artObjects);
+      setCachedArtworks(pageNumber, data.artObjects);
     } catch (err) {
       if (err instanceof Error) {
         setError(err.message);
@@ -31,7 +38,11 @@ export default function Home() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [getCachedArtworks, setCachedArtworks]);
+
+  useEffect(() => {
+    loadArtworks(page);
+  }, [page, loadArtworks]);
 
   const handleArtworkClick = async (index: number) => {
     try {
@@ -42,15 +53,15 @@ export default function Home() {
     }
   };
 
-  const handlePreviousCollection = () => {
+  const handlePreviousCollection = useCallback(() => {
     if (page > 1) {
-      setPage(page - 1);
+      setPage(prevPage => prevPage - 1);
     }
-  };
+  }, [page]);
 
-  const handleNextCollection = () => {
-    setPage(page + 1);
-  };
+  const handleNextCollection = useCallback(() => {
+    setPage(prevPage => prevPage + 1);
+  }, []);
 
 
   return (
