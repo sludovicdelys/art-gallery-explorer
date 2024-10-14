@@ -39,14 +39,14 @@ export default function Carousel({ artworks, onImageClick, onPreviousCollection,
       <div className="flex justify-between items-center mb-4">
         <button
           onClick={onPreviousCollection}
-          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full flex items-center transition-colors"
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full flex items-center transition"
         >
           <ArrowLeft size={20} className="mr-2" />
           Previous collection
         </button>
         <button
           onClick={onNextCollection}
-          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full flex items-center transition-colors"
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-full flex items-center transition"
         >
           Next collection
           <ArrowRight size={20} className="ml-2" />
@@ -67,22 +67,22 @@ export default function Carousel({ artworks, onImageClick, onPreviousCollection,
             />
           </div>
         </div>
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white px-3 py-1 rounded-full text-sm">
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white px-3 py-1 rounded-full text-sm text-gray-800">
           {currentIndex + 1} / {artworks.length}
         </div>
         <button
           onClick={handlePrevious}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 hover:bg-gray-200 transition-colors"
+          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 hover:bg-gray-200 transition-colors border-dotted border-2 border-gray-800"
           aria-label="Previous image"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={24} className="text-gray-800" />
         </button>
         <button
           onClick={handleNext}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 hover:bg-gray-200 transition-colors"
+          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-full p-2 hover:bg-gray-200 transition-colors border-dotted border-2 border-gray-800"
           aria-label="Next image"
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={24} className="text-gray-800" />
         </button>
       </div>
       

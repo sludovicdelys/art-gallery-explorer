@@ -72,7 +72,7 @@ export default function Home() {
       </Head>
 
       <main className="container mx-auto px-4">
-        <h1 className="text-4xl font-bold text-center mb-8">Rijksmuseum Gallery Explorer</h1>
+        <h1 className="text-4xl text-gray-800 font-bold text-center mb-8">Rijksmuseum Gallery Explorer</h1>
         
         {loading ? (
           <div className="mt-8">
